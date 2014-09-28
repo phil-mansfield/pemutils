@@ -51,13 +51,18 @@ debug_tests: tests
 build:
 	mkdir -p build/
 
+# Remove these lines when copying this Makefile. Also remove the dependency of
+# $(TARGET) on overflow.h
+overflow.h: scripts/overflow_gen.py Makefile
+	python scripts/overflow_gen.py src/overflow.h src/overflow.c
+
 # Change this as needed for each object file. List dependencies that are
 # not the corresponding .c and .h file.
 pool.o:
 %.o: %.c %.h Makefile
 	$(CC) $(CFLAGS) -c -o $@ $< $(INCLUDES_WITH_FLAG)
 
-$(TARGET): build $(OBJECTS)
+$(TARGET): build overflow.h $(OBJECTS)
 	ar rcs $@ $(OBJECTS)
 	ranlib $@
 
