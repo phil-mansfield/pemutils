@@ -1,0 +1,5 @@
+*.o
+*.a
+*_test
+*_bench
+build/

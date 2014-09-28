@@ -1,4 +1,3 @@
-* Remove crap, add .gitignore.
 * Finish writing debug.h.
 * Add int_fastN and int_leastN to overflow.*.
 * Decide if it makes sense to add the *intptr* types, too.
