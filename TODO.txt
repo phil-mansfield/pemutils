@@ -1,4 +1,3 @@
-* Finish writing debug.h.
 * Add int_fastN and int_leastN to overflow.*.
 * Decide if it makes sense to add the *intptr* types, too.
 * Add tests that cover multiplication overflow as well as the new integer types.
@@ -6,4 +5,4 @@
   uses signed for unsigned int8's. Write tests for this.
 * Add MIT copyright to files.
 * Correct Makefile's treatment of external libraries.
-* Make runTests.py not be an abomination against Christain decency.
+* Make runTests.py not be an abomination against Christian decency.
