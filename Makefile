@@ -17,11 +17,10 @@ HEADERS=$(patsubst %.c,%.h,$(SOURCES))
 
 # Change this as neccesary. If you aren't making a library, the vast majority of
 # this Makefile will be useless to you. Name will be build/*lib.a
-LIB_NAME=pemutil
+LIB_NAME=pemutils
 
 TARGET=$(patsubst %,build/lib%.a,$(LIB_NAME))
-SELF_FLAG=-lpemutil
-# $(patsubst %,-l%,$(LIB_NAME))
+SELF_FLAG=$(patsubst %,-l%,$(LIB_NAME))
 
 SO_TARGET=$(patsubst, %.a,%.so,$(TARGET))
 
@@ -43,8 +42,11 @@ endif
 
 all: $(TARGET) $(SO_TARGET)
 
-debug: CFLAGS += -g -D DEBUG_MODE
+debug: CFLAGS += -g -D DEBUG
 debug: all
+
+debug_tests: CFLAGS += -g -D DEBUG
+debug_tests: tests
 
 build:
 	mkdir -p build/
@@ -68,12 +70,13 @@ $(SO_TARGET): build $(OBJECTS)
 %_bench: %_bench.c $(TARGET)
 	$(CC) $@.c -o $@ $(CFLAGS) -L build $(LIBRARIES) -I src $(INCLUDES) $(SELF_FLAG) $(LIBRARY_FLAGS)
 
-tests: $(TESTS)
-	@python tests/runTests.py tests/ test
-	@python tests/runTests.py tests/ bench
+tests: $(TESTS) scripts/run_tests.py
+	@python scripts/run_tests.py tests/ test
+	@python scripts/run_tests.py tests/ bench
 
 clean:
-	rm -rf tmp/ build/
-	rm -f src/*.o
-	rm -f tests/*_test
-	rm -f tests/*_bench
+	rm -rf build/
+	rm -f  src/*.o
+	rm -f  tests/*_test
+	rm -f  tests/*_bench
+	rm -rf tests/*.dSYM
