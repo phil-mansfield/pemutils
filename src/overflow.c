@@ -247,3 +247,143 @@ bool add_overflow_int_least64(int_least64_t x, int_least64_t y) {
 bool add_overflow_uint_least64(uint_least64_t x, uint_least64_t y) {
     return x > UINT_LEAST64_MAX - y;
 }
+
+bool mult_overflow_schar(signed char x, signed char y) {
+    return x != 0 && (x * y) / x != y;
+}
+
+bool mult_overflow_uchar(unsigned char x, unsigned char y) {
+    return x != 0 && (x * y) / x != y;
+}
+
+bool mult_overflow_shrt(short x, short y) {
+    return x != 0 && (x * y) / x != y;
+}
+
+bool mult_overflow_ushrt(unsigned short x, unsigned short y) {
+    return x != 0 && (x * y) / x != y;
+}
+
+bool mult_overflow_int(int x, int y) {
+    return x != 0 && (x * y) / x != y;
+}
+
+bool mult_overflow_uint(unsigned int x, unsigned int y) {
+    return x != 0 && (x * y) / x != y;
+}
+
+bool mult_overflow_long(long x, long y) {
+    return x != 0 && (x * y) / x != y;
+}
+
+bool mult_overflow_ulong(unsigned long x, unsigned long y) {
+    return x != 0 && (x * y) / x != y;
+}
+
+bool mult_overflow_llong(long long x, long long y) {
+    return x != 0 && (x * y) / x != y;
+}
+
+bool mult_overflow_ullong(unsigned long long x, unsigned long long y) {
+    return x != 0 && (x * y) / x != y;
+}
+
+bool mult_overflow_size(size_t x, size_t y) {
+    return x != 0 && (x * y) / x != y;
+}
+
+bool mult_overflow_int8(int8_t x, int8_t y) {
+    return x != 0 && (x * y) / x != y;
+}
+
+bool mult_overflow_uint8(uint8_t x, uint8_t y) {
+    return x != 0 && (x * y) / x != y;
+}
+
+bool mult_overflow_int_fast8(int_fast8_t x, int_fast8_t y) {
+    return x != 0 && (x * y) / x != y;
+}
+
+bool mult_overflow_uint_fast8(uint_fast8_t x, uint_fast8_t y) {
+    return x != 0 && (x * y) / x != y;
+}
+
+bool mult_overflow_int_least8(int_least8_t x, int_least8_t y) {
+    return x != 0 && (x * y) / x != y;
+}
+
+bool mult_overflow_uint_least8(uint_least8_t x, uint_least8_t y) {
+    return x != 0 && (x * y) / x != y;
+}
+
+bool mult_overflow_int16(int16_t x, int16_t y) {
+    return x != 0 && (x * y) / x != y;
+}
+
+bool mult_overflow_uint16(uint16_t x, uint16_t y) {
+    return x != 0 && (x * y) / x != y;
+}
+
+bool mult_overflow_int_fast16(int_fast16_t x, int_fast16_t y) {
+    return x != 0 && (x * y) / x != y;
+}
+
+bool mult_overflow_uint_fast16(uint_fast16_t x, uint_fast16_t y) {
+    return x != 0 && (x * y) / x != y;
+}
+
+bool mult_overflow_int_least16(int_least16_t x, int_least16_t y) {
+    return x != 0 && (x * y) / x != y;
+}
+
+bool mult_overflow_uint_least16(uint_least16_t x, uint_least16_t y) {
+    return x != 0 && (x * y) / x != y;
+}
+
+bool mult_overflow_int32(int32_t x, int32_t y) {
+    return x != 0 && (x * y) / x != y;
+}
+
+bool mult_overflow_uint32(uint32_t x, uint32_t y) {
+    return x != 0 && (x * y) / x != y;
+}
+
+bool mult_overflow_int_fast32(int_fast32_t x, int_fast32_t y) {
+    return x != 0 && (x * y) / x != y;
+}
+
+bool mult_overflow_uint_fast32(uint_fast32_t x, uint_fast32_t y) {
+    return x != 0 && (x * y) / x != y;
+}
+
+bool mult_overflow_int_least32(int_least32_t x, int_least32_t y) {
+    return x != 0 && (x * y) / x != y;
+}
+
+bool mult_overflow_uint_least32(uint_least32_t x, uint_least32_t y) {
+    return x != 0 && (x * y) / x != y;
+}
+
+bool mult_overflow_int64(int64_t x, int64_t y) {
+    return x != 0 && (x * y) / x != y;
+}
+
+bool mult_overflow_uint64(uint64_t x, uint64_t y) {
+    return x != 0 && (x * y) / x != y;
+}
+
+bool mult_overflow_int_fast64(int_fast64_t x, int_fast64_t y) {
+    return x != 0 && (x * y) / x != y;
+}
+
+bool mult_overflow_uint_fast64(uint_fast64_t x, uint_fast64_t y) {
+    return x != 0 && (x * y) / x != y;
+}
+
+bool mult_overflow_int_least64(int_least64_t x, int_least64_t y) {
+    return x != 0 && (x * y) / x != y;
+}
+
+bool mult_overflow_uint_least64(uint_least64_t x, uint_least64_t y) {
+    return x != 0 && (x * y) / x != y;
+}

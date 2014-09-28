@@ -80,7 +80,7 @@ MULT_FUNCTION_WRAPPER = """bool mult_overflow_%s(%s x, %s y) {
     return x != 0 && (x * y) / x != y;
 }"""
 
-def mult_function_wrapper(var_name, type_name, body):
+def mult_function(var_name, type_name):
     return MULT_FUNCTION_WRAPPER % (var_name, type_name, type_name)
 
 MULT_FUNCTION_HEADER = "bool mult_overflow_%s(%s x, %s y);"
@@ -141,6 +141,9 @@ def main():
             else:
                 body = add_unsigned_body(min_name, max_name)
             funcs.append(add_function_wrapper(var_name, type_name, body))
+
+        for (_, var_name, type_name) in names:
+            funcs.append(mult_function(var_name, type_name))
 
         fp.write(c_text(funcs))
 
