@@ -114,8 +114,7 @@ names = [(True, "schar", "signed char"), (False, "uchar", "unsigned char"),
          (True, "intptr", "intptr_t"), (False, "uintptr", "uintptr_t"),
          (True, "wchar", "wchar_t"),
          (True, "wint", "wint_t"),
-         (True, "sig_atomic", "sig_atomic_t"),
-]
+         (True, "sig_atomic", "sig_atomic_t")]
 
 for n in [8, 16, 32, 64]: names += fixed_width_names(n)
 
