@@ -1,5 +1,3 @@
-* Add int_fastN and int_leastN to overflow.*.
-* Decide if it makes sense to add the *intptr* types, too.
 * Add tests that cover multiplication overflow as well as the new integer types.
 * Add overflow functions for char that determine whether the architecture
   uses signed for unsigned int8's. Write tests for this.

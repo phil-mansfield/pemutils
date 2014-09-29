@@ -31,8 +31,8 @@ bool add_overflow_int_fast32_test() {
     for (int i = 0; i < LEN(tests); i++) {
         if (add_overflow_int_fast32(tests[i].x, tests[i].y) != tests[i].res) {
             res = false;
-            fprintf(stderr, "Failed test %d: add_overflow_int64(%"PRId32", "
-                    "%"PRId32"). Expected %d, got %d\n.",
+            fprintf(stderr, "Failed test %d: add_overflow_int64(%"PRIdFAST32", "
+                    "%"PRIdFAST32"). Expected %d, got %d\n.",
                     i + 1, tests[i].x, tests[i].y, tests[i].res, !tests[i].res);
         }
     }

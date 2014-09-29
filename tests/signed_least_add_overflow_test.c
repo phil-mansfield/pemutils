@@ -31,8 +31,8 @@ bool add_overflow_int_least8_test() {
     for (int i = 0; i < LEN(tests); i++) {
         if (add_overflow_int_least8(tests[i].x, tests[i].y) != tests[i].res) {
             res = false;
-            fprintf(stderr, "Failed test %d: add_overflow_int64(%"PRId8", "
-                    "%"PRId8"). Expected %d, got %d\n.",
+            fprintf(stderr, "Failed test %d: add_overflow_int64(%"PRIdLEAST8", "
+                    "%"PRIdLEAST8"). Expected %d, got %d\n.",
                     i + 1, tests[i].x, tests[i].y, tests[i].res, !tests[i].res);
         }
     }
