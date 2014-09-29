@@ -309,7 +309,17 @@ bool add_overflow_uint_least64(uint_least64_t x, uint_least64_t y) {
 }
 
 bool mult_overflow_schar(signed char x, signed char y) {
-    return x != 0 && (x * y) / x != y;
+    if (x == 0 || y == 0) {
+        return false;
+    } else if (x > 0 && y > 0) {
+        return SCHAR_MAX / x < y;
+    } else if (x < 0 && y < 0) {
+        return SCHAR_MAX / x > y;
+    } else if (x < 0 && y > 0) {
+        return SCHAR_MIN / y > x;
+    } else { // x > 0 && y < 0
+        return SCHAR_MIN / x > y;
+    }
 }
 
 bool mult_overflow_uchar(unsigned char x, unsigned char y) {
@@ -317,7 +327,17 @@ bool mult_overflow_uchar(unsigned char x, unsigned char y) {
 }
 
 bool mult_overflow_shrt(short x, short y) {
-    return x != 0 && (x * y) / x != y;
+    if (x == 0 || y == 0) {
+        return false;
+    } else if (x > 0 && y > 0) {
+        return SHRT_MAX / x < y;
+    } else if (x < 0 && y < 0) {
+        return SHRT_MAX / x > y;
+    } else if (x < 0 && y > 0) {
+        return SHRT_MIN / y > x;
+    } else { // x > 0 && y < 0
+        return SHRT_MIN / x > y;
+    }
 }
 
 bool mult_overflow_ushrt(unsigned short x, unsigned short y) {
@@ -325,7 +345,17 @@ bool mult_overflow_ushrt(unsigned short x, unsigned short y) {
 }
 
 bool mult_overflow_int(int x, int y) {
-    return x != 0 && (x * y) / x != y;
+    if (x == 0 || y == 0) {
+        return false;
+    } else if (x > 0 && y > 0) {
+        return INT_MAX / x < y;
+    } else if (x < 0 && y < 0) {
+        return INT_MAX / x > y;
+    } else if (x < 0 && y > 0) {
+        return INT_MIN / y > x;
+    } else { // x > 0 && y < 0
+        return INT_MIN / x > y;
+    }
 }
 
 bool mult_overflow_uint(unsigned int x, unsigned int y) {
@@ -333,7 +363,17 @@ bool mult_overflow_uint(unsigned int x, unsigned int y) {
 }
 
 bool mult_overflow_long(long x, long y) {
-    return x != 0 && (x * y) / x != y;
+    if (x == 0 || y == 0) {
+        return false;
+    } else if (x > 0 && y > 0) {
+        return LONG_MAX / x < y;
+    } else if (x < 0 && y < 0) {
+        return LONG_MAX / x > y;
+    } else if (x < 0 && y > 0) {
+        return LONG_MIN / y > x;
+    } else { // x > 0 && y < 0
+        return LONG_MIN / x > y;
+    }
 }
 
 bool mult_overflow_ulong(unsigned long x, unsigned long y) {
@@ -341,7 +381,17 @@ bool mult_overflow_ulong(unsigned long x, unsigned long y) {
 }
 
 bool mult_overflow_llong(long long x, long long y) {
-    return x != 0 && (x * y) / x != y;
+    if (x == 0 || y == 0) {
+        return false;
+    } else if (x > 0 && y > 0) {
+        return LLONG_MAX / x < y;
+    } else if (x < 0 && y < 0) {
+        return LLONG_MAX / x > y;
+    } else if (x < 0 && y > 0) {
+        return LLONG_MIN / y > x;
+    } else { // x > 0 && y < 0
+        return LLONG_MIN / x > y;
+    }
 }
 
 bool mult_overflow_ullong(unsigned long long x, unsigned long long y) {
@@ -353,7 +403,17 @@ bool mult_overflow_size(size_t x, size_t y) {
 }
 
 bool mult_overflow_intmax(intmax_t x, intmax_t y) {
-    return x != 0 && (x * y) / x != y;
+    if (x == 0 || y == 0) {
+        return false;
+    } else if (x > 0 && y > 0) {
+        return INTMAX_MAX / x < y;
+    } else if (x < 0 && y < 0) {
+        return INTMAX_MAX / x > y;
+    } else if (x < 0 && y > 0) {
+        return INTMAX_MIN / y > x;
+    } else { // x > 0 && y < 0
+        return INTMAX_MIN / x > y;
+    }
 }
 
 bool mult_overflow_uintmax(uintmax_t x, uintmax_t y) {
@@ -361,7 +421,17 @@ bool mult_overflow_uintmax(uintmax_t x, uintmax_t y) {
 }
 
 bool mult_overflow_intptr(intptr_t x, intptr_t y) {
-    return x != 0 && (x * y) / x != y;
+    if (x == 0 || y == 0) {
+        return false;
+    } else if (x > 0 && y > 0) {
+        return INTPTR_MAX / x < y;
+    } else if (x < 0 && y < 0) {
+        return INTPTR_MAX / x > y;
+    } else if (x < 0 && y > 0) {
+        return INTPTR_MIN / y > x;
+    } else { // x > 0 && y < 0
+        return INTPTR_MIN / x > y;
+    }
 }
 
 bool mult_overflow_uintptr(uintptr_t x, uintptr_t y) {
@@ -369,19 +439,59 @@ bool mult_overflow_uintptr(uintptr_t x, uintptr_t y) {
 }
 
 bool mult_overflow_wchar(wchar_t x, wchar_t y) {
-    return x != 0 && (x * y) / x != y;
+    if (x == 0 || y == 0) {
+        return false;
+    } else if (x > 0 && y > 0) {
+        return WCHAR_MAX / x < y;
+    } else if (x < 0 && y < 0) {
+        return WCHAR_MAX / x > y;
+    } else if (x < 0 && y > 0) {
+        return WCHAR_MIN / y > x;
+    } else { // x > 0 && y < 0
+        return WCHAR_MIN / x > y;
+    }
 }
 
 bool mult_overflow_wint(wint_t x, wint_t y) {
-    return x != 0 && (x * y) / x != y;
+    if (x == 0 || y == 0) {
+        return false;
+    } else if (x > 0 && y > 0) {
+        return WINT_MAX / x < y;
+    } else if (x < 0 && y < 0) {
+        return WINT_MAX / x > y;
+    } else if (x < 0 && y > 0) {
+        return WINT_MIN / y > x;
+    } else { // x > 0 && y < 0
+        return WINT_MIN / x > y;
+    }
 }
 
 bool mult_overflow_sig_atomic(sig_atomic_t x, sig_atomic_t y) {
-    return x != 0 && (x * y) / x != y;
+    if (x == 0 || y == 0) {
+        return false;
+    } else if (x > 0 && y > 0) {
+        return SIG_ATOMIC_MAX / x < y;
+    } else if (x < 0 && y < 0) {
+        return SIG_ATOMIC_MAX / x > y;
+    } else if (x < 0 && y > 0) {
+        return SIG_ATOMIC_MIN / y > x;
+    } else { // x > 0 && y < 0
+        return SIG_ATOMIC_MIN / x > y;
+    }
 }
 
 bool mult_overflow_int8(int8_t x, int8_t y) {
-    return x != 0 && (x * y) / x != y;
+    if (x == 0 || y == 0) {
+        return false;
+    } else if (x > 0 && y > 0) {
+        return INT8_MAX / x < y;
+    } else if (x < 0 && y < 0) {
+        return INT8_MAX / x > y;
+    } else if (x < 0 && y > 0) {
+        return INT8_MIN / y > x;
+    } else { // x > 0 && y < 0
+        return INT8_MIN / x > y;
+    }
 }
 
 bool mult_overflow_uint8(uint8_t x, uint8_t y) {
@@ -389,7 +499,17 @@ bool mult_overflow_uint8(uint8_t x, uint8_t y) {
 }
 
 bool mult_overflow_int_fast8(int_fast8_t x, int_fast8_t y) {
-    return x != 0 && (x * y) / x != y;
+    if (x == 0 || y == 0) {
+        return false;
+    } else if (x > 0 && y > 0) {
+        return INT_FAST8_MAX / x < y;
+    } else if (x < 0 && y < 0) {
+        return INT_FAST8_MAX / x > y;
+    } else if (x < 0 && y > 0) {
+        return INT_FAST8_MIN / y > x;
+    } else { // x > 0 && y < 0
+        return INT_FAST8_MIN / x > y;
+    }
 }
 
 bool mult_overflow_uint_fast8(uint_fast8_t x, uint_fast8_t y) {
@@ -397,7 +517,17 @@ bool mult_overflow_uint_fast8(uint_fast8_t x, uint_fast8_t y) {
 }
 
 bool mult_overflow_int_least8(int_least8_t x, int_least8_t y) {
-    return x != 0 && (x * y) / x != y;
+    if (x == 0 || y == 0) {
+        return false;
+    } else if (x > 0 && y > 0) {
+        return INT_LEAST8_MAX / x < y;
+    } else if (x < 0 && y < 0) {
+        return INT_LEAST8_MAX / x > y;
+    } else if (x < 0 && y > 0) {
+        return INT_LEAST8_MIN / y > x;
+    } else { // x > 0 && y < 0
+        return INT_LEAST8_MIN / x > y;
+    }
 }
 
 bool mult_overflow_uint_least8(uint_least8_t x, uint_least8_t y) {
@@ -405,7 +535,17 @@ bool mult_overflow_uint_least8(uint_least8_t x, uint_least8_t y) {
 }
 
 bool mult_overflow_int16(int16_t x, int16_t y) {
-    return x != 0 && (x * y) / x != y;
+    if (x == 0 || y == 0) {
+        return false;
+    } else if (x > 0 && y > 0) {
+        return INT16_MAX / x < y;
+    } else if (x < 0 && y < 0) {
+        return INT16_MAX / x > y;
+    } else if (x < 0 && y > 0) {
+        return INT16_MIN / y > x;
+    } else { // x > 0 && y < 0
+        return INT16_MIN / x > y;
+    }
 }
 
 bool mult_overflow_uint16(uint16_t x, uint16_t y) {
@@ -413,7 +553,17 @@ bool mult_overflow_uint16(uint16_t x, uint16_t y) {
 }
 
 bool mult_overflow_int_fast16(int_fast16_t x, int_fast16_t y) {
-    return x != 0 && (x * y) / x != y;
+    if (x == 0 || y == 0) {
+        return false;
+    } else if (x > 0 && y > 0) {
+        return INT_FAST16_MAX / x < y;
+    } else if (x < 0 && y < 0) {
+        return INT_FAST16_MAX / x > y;
+    } else if (x < 0 && y > 0) {
+        return INT_FAST16_MIN / y > x;
+    } else { // x > 0 && y < 0
+        return INT_FAST16_MIN / x > y;
+    }
 }
 
 bool mult_overflow_uint_fast16(uint_fast16_t x, uint_fast16_t y) {
@@ -421,7 +571,17 @@ bool mult_overflow_uint_fast16(uint_fast16_t x, uint_fast16_t y) {
 }
 
 bool mult_overflow_int_least16(int_least16_t x, int_least16_t y) {
-    return x != 0 && (x * y) / x != y;
+    if (x == 0 || y == 0) {
+        return false;
+    } else if (x > 0 && y > 0) {
+        return INT_LEAST16_MAX / x < y;
+    } else if (x < 0 && y < 0) {
+        return INT_LEAST16_MAX / x > y;
+    } else if (x < 0 && y > 0) {
+        return INT_LEAST16_MIN / y > x;
+    } else { // x > 0 && y < 0
+        return INT_LEAST16_MIN / x > y;
+    }
 }
 
 bool mult_overflow_uint_least16(uint_least16_t x, uint_least16_t y) {
@@ -429,7 +589,17 @@ bool mult_overflow_uint_least16(uint_least16_t x, uint_least16_t y) {
 }
 
 bool mult_overflow_int32(int32_t x, int32_t y) {
-    return x != 0 && (x * y) / x != y;
+    if (x == 0 || y == 0) {
+        return false;
+    } else if (x > 0 && y > 0) {
+        return INT32_MAX / x < y;
+    } else if (x < 0 && y < 0) {
+        return INT32_MAX / x > y;
+    } else if (x < 0 && y > 0) {
+        return INT32_MIN / y > x;
+    } else { // x > 0 && y < 0
+        return INT32_MIN / x > y;
+    }
 }
 
 bool mult_overflow_uint32(uint32_t x, uint32_t y) {
@@ -437,7 +607,17 @@ bool mult_overflow_uint32(uint32_t x, uint32_t y) {
 }
 
 bool mult_overflow_int_fast32(int_fast32_t x, int_fast32_t y) {
-    return x != 0 && (x * y) / x != y;
+    if (x == 0 || y == 0) {
+        return false;
+    } else if (x > 0 && y > 0) {
+        return INT_FAST32_MAX / x < y;
+    } else if (x < 0 && y < 0) {
+        return INT_FAST32_MAX / x > y;
+    } else if (x < 0 && y > 0) {
+        return INT_FAST32_MIN / y > x;
+    } else { // x > 0 && y < 0
+        return INT_FAST32_MIN / x > y;
+    }
 }
 
 bool mult_overflow_uint_fast32(uint_fast32_t x, uint_fast32_t y) {
@@ -445,7 +625,17 @@ bool mult_overflow_uint_fast32(uint_fast32_t x, uint_fast32_t y) {
 }
 
 bool mult_overflow_int_least32(int_least32_t x, int_least32_t y) {
-    return x != 0 && (x * y) / x != y;
+    if (x == 0 || y == 0) {
+        return false;
+    } else if (x > 0 && y > 0) {
+        return INT_LEAST32_MAX / x < y;
+    } else if (x < 0 && y < 0) {
+        return INT_LEAST32_MAX / x > y;
+    } else if (x < 0 && y > 0) {
+        return INT_LEAST32_MIN / y > x;
+    } else { // x > 0 && y < 0
+        return INT_LEAST32_MIN / x > y;
+    }
 }
 
 bool mult_overflow_uint_least32(uint_least32_t x, uint_least32_t y) {
@@ -453,7 +643,17 @@ bool mult_overflow_uint_least32(uint_least32_t x, uint_least32_t y) {
 }
 
 bool mult_overflow_int64(int64_t x, int64_t y) {
-    return x != 0 && (x * y) / x != y;
+    if (x == 0 || y == 0) {
+        return false;
+    } else if (x > 0 && y > 0) {
+        return INT64_MAX / x < y;
+    } else if (x < 0 && y < 0) {
+        return INT64_MAX / x > y;
+    } else if (x < 0 && y > 0) {
+        return INT64_MIN / y > x;
+    } else { // x > 0 && y < 0
+        return INT64_MIN / x > y;
+    }
 }
 
 bool mult_overflow_uint64(uint64_t x, uint64_t y) {
@@ -461,7 +661,17 @@ bool mult_overflow_uint64(uint64_t x, uint64_t y) {
 }
 
 bool mult_overflow_int_fast64(int_fast64_t x, int_fast64_t y) {
-    return x != 0 && (x * y) / x != y;
+    if (x == 0 || y == 0) {
+        return false;
+    } else if (x > 0 && y > 0) {
+        return INT_FAST64_MAX / x < y;
+    } else if (x < 0 && y < 0) {
+        return INT_FAST64_MAX / x > y;
+    } else if (x < 0 && y > 0) {
+        return INT_FAST64_MIN / y > x;
+    } else { // x > 0 && y < 0
+        return INT_FAST64_MIN / x > y;
+    }
 }
 
 bool mult_overflow_uint_fast64(uint_fast64_t x, uint_fast64_t y) {
@@ -469,7 +679,17 @@ bool mult_overflow_uint_fast64(uint_fast64_t x, uint_fast64_t y) {
 }
 
 bool mult_overflow_int_least64(int_least64_t x, int_least64_t y) {
-    return x != 0 && (x * y) / x != y;
+    if (x == 0 || y == 0) {
+        return false;
+    } else if (x > 0 && y > 0) {
+        return INT_LEAST64_MAX / x < y;
+    } else if (x < 0 && y < 0) {
+        return INT_LEAST64_MAX / x > y;
+    } else if (x < 0 && y > 0) {
+        return INT_LEAST64_MIN / y > x;
+    } else { // x > 0 && y < 0
+        return INT_LEAST64_MIN / x > y;
+    }
 }
 
 bool mult_overflow_uint_least64(uint_least64_t x, uint_least64_t y) {

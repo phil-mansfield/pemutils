@@ -76,16 +76,34 @@ def add_function_header(var_name, type_name):
 
 ##################
 # Multiplication #
-##################
+#################
 
-# The C99 standard specifies that this is okay to do.
+MULT_SIGNED_BODY = """    if (x == 0 || y == 0) {
+        return false;
+    } else if (x > 0 && y > 0) {
+        return %s / x < y;
+    } else if (x < 0 && y < 0) {
+        return %s / x > y;
+    } else if (x < 0 && y > 0) {
+        return %s / y > x;
+    } else { // x > 0 && y < 0
+        return %s / x > y;
+    }"""
+
+def mult_signed_body(min_name, max_name):
+    return MULT_SIGNED_BODY % (max_name, max_name, min_name, min_name)
+
+MULT_UNSIGNED_BODY = "    return x != 0 && (x * y) / x != y;"
+
+def mult_unsigned_body(min_name, max_name):
+    return MULT_UNSIGNED_BODY
 
 MULT_FUNCTION_WRAPPER = """bool mult_overflow_%s(%s x, %s y) {
-    return x != 0 && (x * y) / x != y;
+%s
 }"""
 
-def mult_function(var_name, type_name):
-    return MULT_FUNCTION_WRAPPER % (var_name, type_name, type_name)
+def mult_function_wrapper(var_name, type_name, body):
+    return MULT_FUNCTION_WRAPPER % (var_name, type_name, type_name, body)
 
 MULT_FUNCTION_HEADER = "bool mult_overflow_%s(%s x, %s y);"
 
@@ -151,8 +169,13 @@ def main():
                 body = add_unsigned_body(min_name, max_name)
             funcs.append(add_function_wrapper(var_name, type_name, body))
 
-        for (_, var_name, type_name) in names:
-            funcs.append(mult_function(var_name, type_name))
+        for (is_signed, var_name, type_name) in names:
+            min_name, max_name = min_max_names(var_name)
+            if is_signed:
+                body = mult_signed_body(min_name, max_name)
+            else:
+                body = mult_unsigned_body(min_name, max_name)
+            funcs.append(mult_function_wrapper(var_name, type_name, body))
 
         fp.write(c_text(funcs))
 
