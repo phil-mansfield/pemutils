@@ -5,10 +5,10 @@
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -45,8 +45,9 @@ bool add_overflow_uintmax(uintmax_t x, uintmax_t y);
 bool add_overflow_intptr(intptr_t x, intptr_t y);
 bool add_overflow_uintptr(uintptr_t x, uintptr_t y);
 bool add_overflow_wchar(wchar_t x, wchar_t y);
-bool add_overflow_wint(wint_t x, wint_t y);
 bool add_overflow_sig_atomic(sig_atomic_t x, sig_atomic_t y);
+bool add_overflow_wint(wint_t x, wint_t y);
+bool add_overflow_char(char x, char y);
 bool add_overflow_int8(int8_t x, int8_t y);
 bool add_overflow_uint8(uint8_t x, uint8_t y);
 bool add_overflow_int_fast8(int_fast8_t x, int_fast8_t y);
@@ -88,8 +89,9 @@ bool mult_overflow_uintmax(uintmax_t x, uintmax_t y);
 bool mult_overflow_intptr(intptr_t x, intptr_t y);
 bool mult_overflow_uintptr(uintptr_t x, uintptr_t y);
 bool mult_overflow_wchar(wchar_t x, wchar_t y);
-bool mult_overflow_wint(wint_t x, wint_t y);
 bool mult_overflow_sig_atomic(sig_atomic_t x, sig_atomic_t y);
+bool mult_overflow_wint(wint_t x, wint_t y);
+bool mult_overflow_char(char x, char y);
 bool mult_overflow_int8(int8_t x, int8_t y);
 bool mult_overflow_uint8(uint8_t x, uint8_t y);
 bool mult_overflow_int_fast8(int_fast8_t x, int_fast8_t y);

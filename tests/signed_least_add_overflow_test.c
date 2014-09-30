@@ -8,7 +8,7 @@
 #define LEN(xs) ((int)(sizeof(xs) / sizeof(xs[0])))
 
 bool add_overflow_int_least8_test() {
-    struct {int_fast32_t x, y; bool res;} tests[15] = {
+    struct {int_least8_t x, y; bool res;} tests[15] = {
         {1, 2, false},
         {-3, -42, false},
         {0, 0, false},

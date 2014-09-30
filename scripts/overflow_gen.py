@@ -27,17 +27,17 @@ import sys
 # Function bodies #
 ###################
 
-licence = """/* Copyright (c) 2014 Phil Mansfield
+license = """/* Copyright (c) 2014 Phil Mansfield
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -48,7 +48,7 @@ licence = """/* Copyright (c) 2014 Phil Mansfield
 
 """
 
-C_TEXT = licence + """#include "overflow.h"
+C_TEXT = license + """#include "overflow.h"
 #include <limits.h>
 #include <stddef.h>
 #include <stdint.h>
@@ -63,7 +63,7 @@ C_TEXT = licence + """#include "overflow.h"
 def c_text(funcs):
     return C_TEXT % ("\n\n".join(funcs))
 
-H_TEXT = licence + """#ifndef PEMUTIL_OVERFLOW_H_
+H_TEXT = license + """#ifndef PEMUTIL_OVERFLOW_H_
 #define PEMUTIL_OVERFLOW_H_
 
 #include <stdbool.h>
@@ -150,8 +150,23 @@ MULT_FUNCTION_HEADER = "bool mult_overflow_%s(%s x, %s y);"
 def mult_function_header(var_name, type_name):
     return MULT_FUNCTION_HEADER % (var_name, type_name, type_name)
 
+
+##################################
+# Dealing with unspecified signs #
+##################################
+
+UNSPECIFIED_BODY ="""#if (%s != 0)
+%s
+#else
+%s
+#endif
+"""
+
+def unspecified_body(min_name, signed_body, unsigned_body):
+    return UNSPECIFIED_BODY % (min_name, signed_body, unsigned_body)
+
 ##########################
-# Type name manipulation #
+# body name manipulation #
 ##########################
 
 def fixed_width_names(n):
@@ -162,7 +177,8 @@ def fixed_width_names(n):
 
 # Non-pattern-based type names. Tuples are (is_signed, var_name, type_name),
 # where var_name is an undercase version of the string used type's limits.
-names = [(True, "schar", "signed char"), (False, "uchar", "unsigned char"),
+names = [(True, "schar", "signed char"),
+         (False, "uchar", "unsigned char"),
          (True, "shrt", "short"), (False, "ushrt", "unsigned short"),
          (True, "int", "int"), (False, "uint", "unsigned int"),
          (True, "long", "long"), (False, "ulong", "unsigned long"),
@@ -170,9 +186,9 @@ names = [(True, "schar", "signed char"), (False, "uchar", "unsigned char"),
          (False, "size", "size_t"),
          (True, "intmax", "intmax_t"), (False, "uintmax", "uintmax_t"),
          (True, "intptr", "intptr_t"), (False, "uintptr", "uintptr_t"),
-         (True, "wchar", "wchar_t"),
-         (True, "wint", "wint_t"),
-         (True, "sig_atomic", "sig_atomic_t")]
+         (None, "wchar", "wchar_t"), (None, "sig_atomic", "sig_atomic_t"),
+         (None, "wint", "wint_t"), (None, "char", "char")
+]
 
 for n in [8, 16, 32, 64]: names += fixed_width_names(n)
 
@@ -203,18 +219,26 @@ def main():
         funcs = []
         for (is_signed, var_name, type_name) in names:
             min_name, max_name = min_max_names(var_name)
-            if is_signed:
-                body = add_signed_body(min_name, max_name)
+            signed_body = add_signed_body(min_name, max_name)
+            unsigned_body = add_unsigned_body(min_name, max_name)
+            if is_signed is None:
+                body = unspecified_body(min_name, signed_body, unsigned_body)
+            elif is_signed:
+                body = signed_body
             else:
-                body = add_unsigned_body(min_name, max_name)
+                body = unsigned_body
             funcs.append(add_function_wrapper(var_name, type_name, body))
 
         for (is_signed, var_name, type_name) in names:
             min_name, max_name = min_max_names(var_name)
-            if is_signed:
-                body = mult_signed_body(min_name, max_name)
+            signed_body = mult_signed_body(min_name, max_name)
+            unsigned_body = mult_unsigned_body(min_name, max_name)
+            if is_signed is None:
+                body = unspecified_body(min_name, signed_body, unsigned_body)
+            elif is_signed:
+                body = signed_body
             else:
-                body = mult_unsigned_body(min_name, max_name)
+                body = unsigned_body
             funcs.append(mult_function_wrapper(var_name, type_name, body))
 
         fp.write(c_text(funcs))

@@ -5,10 +5,10 @@
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -130,6 +130,7 @@ bool add_overflow_uintptr(uintptr_t x, uintptr_t y) {
 }
 
 bool add_overflow_wchar(wchar_t x, wchar_t y) {
+#if (WCHAR_MIN != 0)
     if ((x <= 0 && y >= 0) || (x >= 0 && y <= 0)) {
         return false;
     } else if (x > 0) {
@@ -137,19 +138,14 @@ bool add_overflow_wchar(wchar_t x, wchar_t y) {
     } else {
         return x < WCHAR_MIN - y;
     }
-}
+#else
+    return x > WCHAR_MAX - y;
+#endif
 
-bool add_overflow_wint(wint_t x, wint_t y) {
-    if ((x <= 0 && y >= 0) || (x >= 0 && y <= 0)) {
-        return false;
-    } else if (x > 0) {
-        return x > WINT_MAX - y;
-    } else {
-        return x < WINT_MIN - y;
-    }
 }
 
 bool add_overflow_sig_atomic(sig_atomic_t x, sig_atomic_t y) {
+#if (SIG_ATOMIC_MIN != 0)
     if ((x <= 0 && y >= 0) || (x >= 0 && y <= 0)) {
         return false;
     } else if (x > 0) {
@@ -157,6 +153,40 @@ bool add_overflow_sig_atomic(sig_atomic_t x, sig_atomic_t y) {
     } else {
         return x < SIG_ATOMIC_MIN - y;
     }
+#else
+    return x > SIG_ATOMIC_MAX - y;
+#endif
+
+}
+
+bool add_overflow_wint(wint_t x, wint_t y) {
+#if (WINT_MIN != 0)
+    if ((x <= 0 && y >= 0) || (x >= 0 && y <= 0)) {
+        return false;
+    } else if (x > 0) {
+        return x > WINT_MAX - y;
+    } else {
+        return x < WINT_MIN - y;
+    }
+#else
+    return x > WINT_MAX - y;
+#endif
+
+}
+
+bool add_overflow_char(char x, char y) {
+#if (CHAR_MIN != 0)
+    if ((x <= 0 && y >= 0) || (x >= 0 && y <= 0)) {
+        return false;
+    } else if (x > 0) {
+        return x > CHAR_MAX - y;
+    } else {
+        return x < CHAR_MIN - y;
+    }
+#else
+    return x > CHAR_MAX - y;
+#endif
+
 }
 
 bool add_overflow_int8(int8_t x, int8_t y) {
@@ -458,6 +488,7 @@ bool mult_overflow_uintptr(uintptr_t x, uintptr_t y) {
 }
 
 bool mult_overflow_wchar(wchar_t x, wchar_t y) {
+#if (WCHAR_MIN != 0)
     if (x == 0 || y == 0) {
         return false;
     } else if (x > 0 && y > 0) {
@@ -469,23 +500,14 @@ bool mult_overflow_wchar(wchar_t x, wchar_t y) {
     } else { // x > 0 && y < 0
         return WCHAR_MIN / x > y;
     }
-}
+#else
+    return x != 0 && (x * y) / x != y;
+#endif
 
-bool mult_overflow_wint(wint_t x, wint_t y) {
-    if (x == 0 || y == 0) {
-        return false;
-    } else if (x > 0 && y > 0) {
-        return WINT_MAX / x < y;
-    } else if (x < 0 && y < 0) {
-        return WINT_MAX / x > y;
-    } else if (x < 0 && y > 0) {
-        return WINT_MIN / y > x;
-    } else { // x > 0 && y < 0
-        return WINT_MIN / x > y;
-    }
 }
 
 bool mult_overflow_sig_atomic(sig_atomic_t x, sig_atomic_t y) {
+#if (SIG_ATOMIC_MIN != 0)
     if (x == 0 || y == 0) {
         return false;
     } else if (x > 0 && y > 0) {
@@ -497,6 +519,48 @@ bool mult_overflow_sig_atomic(sig_atomic_t x, sig_atomic_t y) {
     } else { // x > 0 && y < 0
         return SIG_ATOMIC_MIN / x > y;
     }
+#else
+    return x != 0 && (x * y) / x != y;
+#endif
+
+}
+
+bool mult_overflow_wint(wint_t x, wint_t y) {
+#if (WINT_MIN != 0)
+    if (x == 0 || y == 0) {
+        return false;
+    } else if (x > 0 && y > 0) {
+        return WINT_MAX / x < y;
+    } else if (x < 0 && y < 0) {
+        return WINT_MAX / x > y;
+    } else if (x < 0 && y > 0) {
+        return WINT_MIN / y > x;
+    } else { // x > 0 && y < 0
+        return WINT_MIN / x > y;
+    }
+#else
+    return x != 0 && (x * y) / x != y;
+#endif
+
+}
+
+bool mult_overflow_char(char x, char y) {
+#if (CHAR_MIN != 0)
+    if (x == 0 || y == 0) {
+        return false;
+    } else if (x > 0 && y > 0) {
+        return CHAR_MAX / x < y;
+    } else if (x < 0 && y < 0) {
+        return CHAR_MAX / x > y;
+    } else if (x < 0 && y > 0) {
+        return CHAR_MIN / y > x;
+    } else { // x > 0 && y < 0
+        return CHAR_MIN / x > y;
+    }
+#else
+    return x != 0 && (x * y) / x != y;
+#endif
+
 }
 
 bool mult_overflow_int8(int8_t x, int8_t y) {
